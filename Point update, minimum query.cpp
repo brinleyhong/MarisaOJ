@@ -2,7 +2,8 @@
 using namespace std;
 typedef long long ll;
 const int maxn = 2e5;
-int n, q, a[maxn+5], seg[maxn*4+5];
+int n, q, a[maxn+5];
+ll seg[maxn*4+5];
 void build(int id, int l, int r)
 {
     if (l == r)
@@ -19,7 +20,7 @@ void update(int id, int l, int r, int k, int val)
 {
     if (l == r)
     {
-        seg[id] = val;
+        seg[id] = (ll) seg[id] + val;
         return;
     }
     int mid = (l+r)/2;
@@ -27,10 +28,10 @@ void update(int id, int l, int r, int k, int val)
     else update(id*2+1, mid+1, r, k, val);
     seg[id] = min(seg[id*2], seg[id*2+1]);
 }
-int get(int id, int l, int r, int u, int v)
+ll get(int id, int l, int r, int u, int v)
 {
     // l r u l r v l r
-    if (r < u || v < l) return INT_MAX;
+    if (r < u || v < l) return LLONG_MAX;
     if (u<=l && r<=v) return seg[id];
     int mid = (l+r)/2;
     return min(get(id*2, l, mid, u, v), get(id*2+1, mid+1, r, u, v));
